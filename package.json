@@ -1,0 +1,17 @@
+{
+  "name": "relatorio-celula",
+  "version": "1.0.0",
+  "description": "Sistema de relatório e controle de presença para células",
+  "scripts": {
+    "dev": "npx serve",
+    "build": "echo 'Build complete - Static site ready'"
+  },
+  "keywords": [
+    "celula",
+    "igreja",
+    "presenca",
+    "relatorio"
+  ],
+  "author": "Sua Igreja",
+  "license": "MIT"
+}
