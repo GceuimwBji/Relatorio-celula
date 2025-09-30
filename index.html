@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatório de Célula</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100">
+  
+  <div id="app" class="min-h-screen p-4">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Cabeçalho -->
+      <div class="bg-white rounded-2xl shadow-xl p-6 mb-6">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-3">
+              <svg class="w-9 h-9 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+              <span id="celulaNome">Relatório de Célula</span>
+            </h1>
+            <p class="text-gray-600 mt-1">Controle de presença semanal</p>
+          </div>
+          <button onclick="abrirModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-colors shadow-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+            </svg>
+            Adicionar Pessoa
+          </button>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <div id="statMembros" class="text-blue-600 text-2xl font-bold">0</div>
+            <div class="text-gray-700 text-sm">Membros</div>
+          </div>
+          <div class="bg-green-50 p-4 rounded-lg">
+            <div id="statVisitantes" class="text-green-600 text-2xl font-bold">0</div>
+            <div class="text-gray-700 text-sm">Visitantes</div>
+          </div>
+          <div class="bg-purple-50 p-4 rounded-lg">
+            <div id="statCriancas" class="text-purple-600 text-2xl font-bold">0</div>
+            <div class="text-gray-700 text-sm">Crianças</div>
+          </div>
+          <div class="bg-indigo-50 p-4 rounded-lg">
+            <div id="statPresenca" class="text-indigo-600 text-2xl font-bold">0%</div>
+            <div class="text-gray-700 text-sm">Presença Média</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabela de Presença -->
+      <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full" id="tabelaPresenca">
+            <thead class="bg-indigo-600 text-white">
+              <tr>
+                <th class="px-6 py-4 text-left font-semibold">Nome</th>
+                <th class="px-6 py-4 text-left font-semibold">Tipo</th>
+                <th class="px-4 py-4 text-center font-semibold" id="semana1Header"></th>
+                <th class="px-4 py-4 text-center font-semibold" id="semana2Header"></th>
+                <th class="px-4 py-4 text-center font-semibold" id="semana3Header"></th>
+                <th class="px-4 py-4 text-center font-semibold" id="semana4Header"></th>
+                <th class="px-4 py-4 text-center font-semibold">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaBody">
+              <tr>
+                <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                  Nenhuma pessoa cadastrada. Clique em "Adicionar Pessoa" para começar.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Adicionar Pessoa</h2>
+      
+      <div class="mb-4">
+        <label class="block text-gray-700 font-semibold mb-2">Nome</label>
+        <input
+          type="text"
+          id="inputNome"
+          placeholder="Digite o nome"
+          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none"
+        />
+      </div>
+
+      <div class="mb-6">
+        <label class="block text-gray-700 font-semibold mb-2">Tipo</label>
+        <select
+          id="selectTipo"
+          class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none"
+        >
+          <option value="membro">Membro</option>
+          <option value="visitante">Visitante</option>
+          <option value="crianca">Criança</option>
+        </select>
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          onclick="fecharModal()"
+          class="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors font-semibold"
+        >
+          Cancelar
+        </button>
+        <button
+          onclick="adicionarPessoa()"
+          class="flex-1 px-4 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-semibold flex items-center justify-center gap-2"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Adicionar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
